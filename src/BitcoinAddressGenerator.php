@@ -30,7 +30,7 @@ class BitcoinAddressGenerator
         return self::$instance->generateAddress($pk);
     }
 
-    public function generateAddress(string $pk):BitcoinAddress {
+    public function generateAddress(string $pk = null):BitcoinAddress {
         if (!$pk) {
             $privateKey = $this->generateNewPrivateKey();
         } else {
