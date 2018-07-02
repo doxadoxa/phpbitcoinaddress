@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace tarasdovgal\phpbitcoinaddress;
+namespace doxadoxa\phpbitcoinaddress;
 
 use Mdanter\Ecc\Crypto\Key\PrivateKey;
 use Mdanter\Ecc\Crypto\Key\PrivateKeyInterface;

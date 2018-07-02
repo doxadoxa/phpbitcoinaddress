@@ -1,7 +1,7 @@
 <?php
 require "../../vendor/autoload.php";
 
-use tarasdovgal\phpbitcoinaddress\BitcoinAddressGenerator;
+use tarasdovgal\doxadoxa\BitcoinAddressGenerator;
 
 $address = BitcoinAddressGenerator::generate('e75aaf18aa03086467bae9d64919ab376b50ac5954046aa8c52ec52ebe2ea240');
 
