@@ -9,17 +9,27 @@ use Tuupola\Base58;
 class BitcoinAddress
 {
     const ADDRESS_VERSION = 1;
+    const MAINNET_SYMBOL = "00";
+    const TESTNET_SYMBOL = "6f";
 
     private $privateKey;
     private $publicKey;
     private $addressVersion;
     private $address;
+    private $test;
 
-    public function __construct(PrivateKeyInterface $privateKey, int $addressVersion = self::ADDRESS_VERSION)
+    /**
+     * BitcoinAddress constructor.
+     * @param PrivateKeyInterface $privateKey
+     * @param bool $test
+     * @param int $addressVersion
+     */
+    public function __construct(PrivateKeyInterface $privateKey, $test = false, int $addressVersion = self::ADDRESS_VERSION)
     {
         $this->privateKey = $privateKey;
         $this->publicKey = $privateKey->getPublicKey();
         $this->addressVersion = $addressVersion;
+        $this->test = $test;
         $this->makeAddressFromPublicKey();
     }
 
@@ -91,7 +101,11 @@ class BitcoinAddress
      */
     public function address():string
     {
-        return $this->addressVersion . $this->address;
+        if (!$this->test) {
+            return $this->addressVersion . $this->address;
+        } else {
+            return $this->address;
+        }
     }
 
     /**
@@ -137,7 +151,9 @@ class BitcoinAddress
     {
         $sha256 = hash('sha256', $this->publicKey(), true);
         $ripemd160 = hash('ripemd160', $sha256, true);
-        $exRipemd160 = "\00" . $ripemd160;
+        var_dump($this->test);
+        $exRipemd160 = hex2bin(($this->test ? self::TESTNET_SYMBOL : self::MAINNET_SYMBOL) . bin2hex($ripemd160));
+        //var_dump(bin2hex($exRipemd160));die;
         $sha256_checksum = hash('sha256', $exRipemd160, true);
         $sha256_checksum_next = hash('sha256', $sha256_checksum, true);
         $checkSum = substr($sha256_checksum_next, 0,4);

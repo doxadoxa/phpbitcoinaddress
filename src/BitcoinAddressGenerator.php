@@ -19,28 +19,29 @@ class BitcoinAddressGenerator
      * Generate address from already existed private key or with new private key (if $pk not set).
      *
      * @param string|null $pk
+     * @param bool $test
      * @return BitcoinAddress
      */
-    static public function generate(string $pk = null):BitcoinAddress
+    static public function generate(string $pk = null, $test = false):BitcoinAddress
     {
         if (!isset(static::$instance)) {
             self::$instance = new BitcoinAddressGenerator;
         }
 
-        return self::$instance->generateAddress($pk);
+        return self::$instance->generateAddress($pk, $test);
     }
 
-    public function generateAddress(string $pk = null):BitcoinAddress {
+    public function generateAddress(string $pk = null, bool $test = false):BitcoinAddress {
         if (!$pk) {
             $privateKey = $this->generateNewPrivateKey();
         } else {
             $privateKey = $this->generateExistsPrivateKey($pk);
         }
 
-        return new BitcoinAddress($privateKey);
+        return new BitcoinAddress($privateKey, $test);
     }
 
-    public function generateNewPrivateKey()
+    public function generateNewPrivateKey(): PrivateKeyInterface
     {
         $adapter = \Mdanter\Ecc\EccFactory::getAdapter();
         $generator = \Mdanter\Ecc\EccFactory::getSecgCurves($adapter)->generator256k1();

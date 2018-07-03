@@ -1,10 +1,15 @@
 <?php
 require "../../vendor/autoload.php";
 
-use tarasdovgal\doxadoxa\BitcoinAddressGenerator;
+use doxadoxa\phpbitcoinaddress\BitcoinAddressGenerator;
 
-$address = BitcoinAddressGenerator::generate('e75aaf18aa03086467bae9d64919ab376b50ac5954046aa8c52ec52ebe2ea240');
+$address = BitcoinAddressGenerator::generate();
 
 echo sprintf("address: %s\n", $address->address());
 echo sprintf("private key: %s\n", $address->privateKey(true));
 echo sprintf("json: %s\n", $address->toJson());
+
+$testAddress = BitcoinAddressGenerator::generate(null, true);
+echo sprintf("test address: %s\n", $testAddress->address());
+echo sprintf("test private key: %s\n", $testAddress->privateKey(true));
+echo sprintf("test json: %s\n", $testAddress->toJson());
