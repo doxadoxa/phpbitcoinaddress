@@ -7,6 +7,8 @@ $address = BitcoinAddressGenerator::generate();
 
 echo sprintf("address: %s\n", $address->address());
 echo sprintf("private key: %s\n", $address->privateKey(true));
+echo sprintf("public key: %s\n", $address->publicKey(true));
+echo strlen($address->publicKey()). PHP_EOL;
 echo sprintf("json: %s\n", $address->toJson());
 
 $testAddress = BitcoinAddressGenerator::generate(null, true);
